@@ -15,6 +15,8 @@ E-commerce project for new and used books with user registration, seller approva
 ![image](https://github.com/atheless/Bookstore/assets/86173165/3e86cab9-95aa-4f7b-983e-2761d03ba57b)
 ![image](https://github.com/atheless/Bookstore/assets/86173165/a7deb747-ba39-4306-b4c9-6b402f268fc4)
 ![image](https://github.com/atheless/Bookstore/assets/86173165/4ae2ae37-9759-4577-b3dd-9f19b416d4ba)
+![image](https://github.com/atheless/Bookstore/assets/86173165/b0ea2104-84d6-4c61-9fc6-c84fde52ed1c)
+![image](https://github.com/atheless/Bookstore/assets/86173165/5c51dd5e-c70b-41c0-a508-ed3eb5c9a075)
 ![image](https://github.com/atheless/Bookstore/assets/86173165/1007476a-875d-4030-a2f3-28154ecd6b9b)
 ![image](https://github.com/atheless/Bookstore/assets/86173165/a8c10dce-4a96-477a-a52d-8950514bc598)
 ![image](https://github.com/atheless/Bookstore/assets/86173165/0b37ac9a-9c10-4887-a6b5-02c081cdffd5)
