@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+
+
+
+
+
+
+{% block body %}
+ <div class="container s">
+    <div class="row ">
+
+
+        <div class="col align-content-center">
+            <div class="text-center">
+                    <img class="img-fluid" style="width: 25rem;" src="/media/logo.png">
+            </div>
+        </div>
+
+
+
+
+
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Millions of books</h1>
+          <p class="lead">
+              Millions of books and other objects are listed for sale
+              on our websites by thousands of sellers located in more than
+              50 countries. Our epic selection stretches from manuscripts
+              created before the invention of the Gutenberg Press to the latest signed bestsellers. We have customers in almost every country of the world, who are buying books and other printed matter published in multiple languages.
+          </p>
+        <p>
+          <a href="{% url 'uprofile:profile' %}" class="btn btn-primary my-2">Start Selling</a>
+
+          <a href="{% url 'user-signup' %}" class="btn btn-secondary my-2">Start Buying</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+ </div>
+
+{% endblock %}

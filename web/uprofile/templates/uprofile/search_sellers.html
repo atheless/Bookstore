@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+{% block breadcrumb %}
+
+    <div class="container bg-light">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Sellers List</a></li>
+            </ol>
+        </nav>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block body %}
+    <div class="container ">
+
+
+            <h4 class="text-center">Our catalog of certified sellers</h4>
+            <br>
+        <div class="d-flex justify-content-center">
+
+        <form action="{% url 'uprofile:search_seller' %}" method="get"> {% csrf_token %}
+            <input name="q" size="40" type="text" placeholder="Search by Country, Name, Phone or Email">
+            <input type="submit" class="btn btn-outline-primary" value="Search" />
+        </form>
+
+        </div>
+
+
+        <div class="row">
+            {% for o in object_list %}
+                <div class="col align-content-center">
+                    <div class="card mb-4" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ o.seller_name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country - {{ o.country.name }} <i
+                                    class="{{ o.country.flag_css }}"></i></h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Legal Address - {{ o.legal_seller_address }}</h6>
+                            <a href="{% url 'uprofile:seller-details' o.pk %}" class="card-link">Details</a>
+                        </div>
+                        <div class="card-footer border-success">
+                            <i class="bi bi-patch-check"></i>
+                            <small class="text-muted">Certified Seller</small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <br>
+        <hr>
+        <div class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            <a class="page-link" href="#">
+                         <span class="sr-only current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+            </a>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last
+                    &raquo;</a></li>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+
+
+
+    </div>
+
+{% endblock %}

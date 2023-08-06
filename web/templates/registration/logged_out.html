@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Logged out{% endblock %}
+
+
+{% block alert %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message | safe }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <h1>Logged out Successfully</h1>
+     <br>
+     <a href="{% url 'homepage' %}">Homepage</a>
+{% endblock %}

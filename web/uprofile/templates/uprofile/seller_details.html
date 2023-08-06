@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Seller Details{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <div class="container bg-light">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'ushopping:browse-products' %}">Browse our Collection</a></li>
+                <li class="breadcrumb-item"><a href="#">Seller Details</a></li>
+
+            </ol>
+        </nav>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-center"></div>
+        <div class="card mb-3">
+            <img src="
+{% if object.created_by.uprofile.profile_image != '' %} /media/{{ object.created_by.uprofile.profile_image }}
+                        {% else %}/media/profileImages/default.png{% endif %}
+
+" width="50%" height="50%" class="card-img" alt="">
+            <div class="card-body">
+                <h5>Business Name</h5>
+                <p class="card-title">{{ object.seller_name }}</p>
+
+
+                <hr>
+                <h5>Country </h5>
+                <p class="card-text">{{ object.country.name }} <i class="{{ object.country.flag_css }}"></i></p>
+
+                <hr>
+                <h5>Legal Address</h5>
+                <p class="card-text">{{ object.legal_seller_address }}</p>
+
+
+                <hr>
+                <h5>Email</h5>
+                <p class="card-text">{{ object.seller_email }}</p>
+
+                <hr>
+                <h5>Contact phone</h5>
+                <p class="card-text">{{ object.contact_phone }}</p>
+
+
+                <hr>
+                <h5>Description</h5>
+                <p class="card-text">{{ object.description }}</p>
+
+            </div>
+            <div class="card-footer border-success">
+                <i class="bi bi-patch-check"></i>
+                <small class="text-muted">Certified Seller</small>
+            </div>
+
+        </div>
+            <div class="row">
+                {% if user.is_staff %}
+                <b class="text-center">You logged in as a staff. You can edit this profile.</b>
+                <a href="{% url 'uprofile:sellers-app-details' object.pk %}"  type="button" class="btn btn-outline-warning text-center">Edit this Profile</a>
+            {% endif %}
+        </div>
+    <br>
+    <br>
+    <br>
+    </div>
+
+{% endblock %}

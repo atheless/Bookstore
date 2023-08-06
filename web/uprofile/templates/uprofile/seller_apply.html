@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Profile</a></li>
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block body %}
+    <div class="container">
+        <hr>
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Confirm">
+        </form>
+    </div>
+
+{% endblock %}

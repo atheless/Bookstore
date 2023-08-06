@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}My Cart{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="#">My Cart</a></li>
+
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+{% block body %}
+    <div class="container">
+        <hr>
+
+
+
+
+
+
+ <div class="row">
+
+            {% for o in mycart %}
+                <div class="col-md-4">
+                    <div class="card mb-4" style="width: 18rem;">
+                        <img class="card-img-top" src=" /media/{{ o.item.product_image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ o.item.name }}</h5>
+                            <h6 class="card-subtitle mb-3">{{ o.item.category }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Author - {{ o.item.author }} <i class="{{ o.item.country.flag_css }}"></i></h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Year - {{ o.item.year }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Publisher - {{ o.item.publisher }}</h6>
+                            <p class="card-text">{{ o.item.description | slice:":200" }}</p>
+                            <a class="bi-text-center" href="{% url 'ushopping:product-details' o.item.pk %}" class="card-link">Details</a>
+                            <a class="bi-text-center" href="{% url 'ushopping:cart-delete-view' o.id %}" class="card-link">Remove</a>
+
+
+                            <a class="bi-text-center" href="#" class="card-link">Buy</a>
+                            <b>Amount - {{ o.amount }}</b>
+                        </div>
+                </div>
+                </div>
+            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            <a class="page-link" href="#">
+                         <span class="sr-only current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+            </a>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last
+                    &raquo;</a></li>
+            {% endif %}
+        </div>
+
+
+
+</div>
+    </div>
+
+    {% endblock %}

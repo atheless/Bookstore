@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Product Details{% endblock %}
+
+
+
+{% block breadcrumb %}
+    <div class="container bg-light">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'ushopping:browse-products' %}">Browse</a></li>
+                <li class="breadcrumb-item"><a href="#">Product #{{ object.id }}</a></li>
+            </ol>
+        </nav>
+    </div>
+
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-center"></div>
+        <div class="card mb-3">
+            <img class="card-img-top" src="/media/{{ object.product_image }}">
+            <div class="card-body">
+                <h5>Product Name</h5>
+                <p class="card-title">{{ object.name }}</p>
+
+                <hr>
+                <h5>Author</h5>
+                <p class="card-text">{{ object.author}}</p>
+
+
+                <hr>
+                <h5>Publisher</h5>
+                <p class="card-text">{{ object.publisher }}</p>
+
+
+                <hr>
+                <h5>Category</h5>
+                <p class="card-text">{{ object.category }}</p>
+
+
+                <hr>
+                <h5>Year</h5>
+                <p class="card-text">{{ object.year}}</p>
+
+
+                <hr>
+                <h5>Condition</h5>
+                <p class="card-text">
+                    {% if object.condition == '0' %}
+                        New
+                    {% elif object.condition == '1' %}
+                        Used as new
+                    {% elif object.condition == '2' %}
+                        Heavily used
+                    {% elif object.condition == '3' %}
+                        Bad
+                    {% endif %}
+                </p>
+
+
+                 <hr>
+                <h5>Price</h5>
+                <p class="card-text">{{ object.price}} Euro.</p>
+
+
+
+
+                <hr>
+                <h5>Description</h5>
+                <p class="card-text">{{ object.description }}</p>
+
+                 <hr>
+                <h4>Information about Seller</h4>
+                <p class="card-text">
+                    {% if object.user.is_staff %}
+                        This product is sold directly by our company.
+                     {% else %}
+                        This item is sold by our certified seller {{ object.user.username }}.
+                        You can find all information about seller <a href="{% url 'uprofile:seller-details' object.user.pk %}">here</a>
+                    {% endif %}
+
+                </p>
+
+            </div>
+                     {% if object.user.is_staff %} {# Personale interno #}
+                        <div class="card-footer border-info">
+                            <i class="bi bi-archive"></i>
+                              <small class="text-muted">
+                              Certified</small>
+                            </div>
+                        {% else %} {# Seller #}
+                        <div class="card-footer border-success">
+                            <i class="bi bi-patch-check"></i>
+                            <small class="text-muted">Certified Seller</small>
+
+                        </div>
+                        {% endif %}
+        </div>
+
+        <div class="row">
+            {% if user.is_authenticated %}
+                 <form method="get">
+                    <button type="submit" name="add" class="w-100 btn btn-lg btn-primary">Add to Cart!</button>
+                 </form>
+            {% endif %}
+
+            {% if user.is_staff %}
+                <b class="text-center">You logged in as a staff. You can edit this product.</b>
+                <a href="{% url 'ushopping:edit-product' object.pk %}"  type="button" class="btn btn-outline-warning text-center">Edit Product</a>
+            {% endif %}
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <hr>
+    </div>
+
+{% endblock %}

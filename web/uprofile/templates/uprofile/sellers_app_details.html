@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Home{% endblock %}
+
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:sellers-app-forms' %}">Manage application forms</a></li>
+                <li class="breadcrumb-item"><a href="#">Detail view of a seller #{{ object.pk }} </a></li>
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+
+    <hr>
+
+    <h4 class="text-center">Created by User: <mark>{{ object.created_by }}</mark> with id=<mark>{{ object.pk }}</mark> </h4>
+    <h4 class="text-center">User's email: <mark>{{ object.created_by.email }}</mark></h4>
+
+    <h4 class="text-center">Creation date: <mark>{{ object.creation_date }} </mark></h4>
+    <h4 class="text-center">Contact phone: <mark>{{ object.contact_phone }} </mark></h4>
+
+
+
+    <div class="container">
+
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Confirm">
+        </form>
+
+    </div>
+{% endblock %}

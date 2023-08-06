@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="#">New Product</a></li>
+
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+{% block body %}
+    <div class="container">
+        <hr>
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form|crispy }}
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Confirm">
+        </form>
+        <br>
+        <br>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+
+
+
+{% block breadcrumb %}
+
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Profile</a></li>
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+{% block alert %}
+{% endblock %}
+
+
+
+
+{% block body %}
+    {# --- Current User Profile ---   #}
+    {% if obj.username == user.username %}
+
+
+        <div class="container">
+        <hr>
+
+        <div class="row row-cols-1 row-cols-sm-2">
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>Settings</b></div>
+                <div class="panel-body">
+
+
+                    <div class="list-group">
+                        {% if user.is_staff %}
+
+
+                                <a href="{% url 'uprofile:create-new-category' %}">
+                                <button type="button" class="list-group-item list-group-item-action">Create New Category Products</button>
+                                </a>
+
+                                <a href="{% url 'ushopping:create-product' %}">
+                                <button type="button" class="list-group-item list-group-item-action">New Product</button>
+                                </a>
+
+                                             <a href="{% url 'ushopping:my-listings-product' %}">
+                                <button type="button" class="list-group-item list-group-item-action">My Listings</button>
+                                </a>
+
+                            <a href="{% url 'uprofile:sellers-app-forms' %}">
+                                <button type="button" class="list-group-item list-group-item-action">Manage application forms</button>
+                            </a>
+
+                        {% endif %}
+
+                        {% if seller %} {# User has applied to become a seller or is a seller. #}
+                                {% if seller.status == '1' %} {# Approved seller #}
+                                <a href="{% url 'ushopping:create-product' %}">
+                                <button type="button" class="list-group-item list-group-item-action">New Product</button>
+                                </a>
+
+                                <a href="{% url 'ushopping:my-listings-product' %}">
+                                <button type="button" class="list-group-item list-group-item-action">My Listings</button>
+                                </a>
+
+                                {% endif %}
+
+                        {% endif %}
+
+                        {# Normal User #}
+
+                         <a href="{% url 'ushopping:my-cart-view'%}">
+                            <button type="button" class="list-group-item list-group-item-action">My Cart</button>
+                        </a>
+
+                        <a href="{% url 'uprofile:profile-edit'%}">
+                            <button type="button" class="list-group-item list-group-item-action">Edit Profile</button>
+                        </a>
+                        <a href="{% url 'uprofile:update-password' %}">
+                            <button type="button" class="list-group-item list-group-item-action">Change Password</button>
+                        </a>
+                        <button type="button" class="list-group-item list-group-item-action">Payments</button>
+                        <a href="{% url 'user-logout' %}">
+                            <button type="button" class="list-group-item list-group-item-action">Logout</button>
+                        </a>
+
+                    </div>
+
+                    <hr>
+
+                    {% if group %}
+                        {% if group == "Normal" or group == "Seller" %}
+                            <div class="container">
+
+                                {% if seller %} {# User has applied to become a seller or a seller. #}
+
+                                    {% if seller.status == '0' %}
+                                        <div class="alert alert-success" role="alert">
+                                            <h4 class="alert-heading">Current application status: <span
+                                                    class="badge bg-secondary">in pending</span></h4>
+                                            <p>Your application form has been successfully submitted for verification
+                                                purpose. </p>
+                                            <hr>
+                                            <p class="mb-0"><strong>Please note that verification may take up to 24 hours to be fully verified by our team.</strong></p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if seller.status == '1' %}
+                                        <div class="alert alert-info" role="alert">
+                                            <h4 class="alert-heading">Current application status: <span
+                                                    class="badge bg-info">Approved!</span></h4>
+                                            <p>Your application form has been successfully approved by our team.</p>
+                                            <hr>
+                                            <p class="mb-0"><strong>You were approved!</strong></p>
+                                        </div>
+                                        {% endif %}
+
+
+                                        {% if seller.status == '2' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <h4 class="alert-heading">Current application status:<span
+                                                    class="badge bg-danger">Rejected</span></h4>
+                                            <p>Your application form has been rejected by our team. Please check our tearms of service.</p>
+                                            <hr>
+                                            <p class="mb-0"><strong>You were rejected!</strong></p>
+                                        </div>
+                                        {% endif %}
+
+
+                                      {% if seller.status == '3' %}
+                                        <div class="alert alert-warning" role="alert">
+                                            <h4 class="alert-heading">Current application status: <span
+                                                    class="badge bg-warning">Undefined</span></h4>
+                                            <p>Your application form has been set to undefined state. Please contact our team.</p>
+                                            <hr>
+                                        </div>
+                                      {% endif %}
+
+
+
+                                {% else %}
+                                    {# User is normal and did not apply yet to become a seller. Show application form #}
+                                    {% if not user.is_staff %}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Would you like to become a seller?
+                                        </div>
+                                        <div class="card-body">
+
+                                            <p class="card-text">Your application form will be submitted for verification.</p>
+                                            <a href="{% url 'uprofile:seller-apply' %}" class="btn btn-primary">Apply to sell with us!</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% endif %}
+
+
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+
+                </div>
+            </div>
+
+
+            <div class="card">
+                <b>Profile Information</b>
+                <div class="text-center">
+
+                    {% if uprofile %}
+                    <img src="
+                        {% if uprofile.profile_image != ''  %} /media/{{ uprofile.profile_image }}
+                        {% else %}/media/profileImages/default.png{% endif %}
+                        " class="img-thumbnail rounded" alt="...">
+                    {% endif %}
+
+
+                </div>
+
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th><strong>Username</strong></th>
+                            <td>{{ obj.username }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Email</strong></th>
+                            <td>{{ obj.email }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Last Login</strong></th>
+                            <td>{{ obj.last_login }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>User ID</strong></th>
+                            <td>{{ obj.id }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Group</strong></th>
+                            <td>{% if group %}{{ group }}{% endif %} </td>
+                        </tr>
+                        <tr>
+                            <th><strong>Member since</strong></th>
+                            <td>{{ obj.date_joined }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>First Name</strong></th>
+                            <td>{{ obj.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Last Name</strong></th>
+                            <td>{{ obj.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Last login</strong></th>
+                            <td>{{ obj.last_login }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+    {% elif obj.username != user.username %}
+
+        <b>w</b>
+
+    {% endif %}
+
+
+
+
+
+</div>
+
+{% endblock %}

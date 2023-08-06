@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+
+
+{% block breadcrumb %}
+<div class="container bg-light">
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+         <li class="breadcrumb-item"><a href="{% url 'ushopping:browse-products' %}">Browse our Collections</a></li>
+
+  </ol>
+</nav>
+</div>
+
+{% endblock %}
+
+
+
+
+
+{% block body %}
+
+
+{# Bestsellers  #}
+    <div class="container shadow-lg">
+    <br>
+    <h4 class="text-center">Top 4 Recommended <i class="bi bi-cart-check-fill"></i>
+</h4>
+    <hr>
+
+
+
+<div class="row">
+
+        {% for o in top4_list_items %}
+            <div class="col align-content-center">
+                    <div class="card mb-auto" style="width: 10rem;">
+                        <img class="card-img-top" src=" /media/{{ o.product_image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ o.name }}</h5>
+                            <h6 class="card-subtitle mb-3">{{ o.category }}</h6>
+                            <a class="bi-text-center" href="{% url 'ushopping:product-details' o.pk %}"
+                               class="card-link">Details</a>
+                        </div>
+
+                        <div class="card-footer border-warning text-center">
+                                <i class="bi bi-cart-check"></i>
+                                <small class="text-muted">Recommended</small>
+                            </div>
+
+
+                    </div>
+                </div>
+
+        {% endfor %}
+</div>
+    <hr>
+    </div>
+
+
+    {% if user.is_authenticated %}
+{# UserReccomended  #}
+    <div class="container shadow-lg">
+    <br>
+    <h4 class="text-center">Recommended to You <i class="bi bi-search-heart"></i>
+</h4>
+    <hr>
+
+
+<div class="row">
+
+        {% for o in UserRecommendation %}
+            <div class="col align-content-center">
+                    <div class="card mb-auto " style="width: 10rem;">
+                        <div class="card-body">
+
+                            <img class="card-img-top" src=" /media/{{ o.product_image }}">
+                            <h5 class="card-title">{{ o.name }}</h5>
+                            <h6 class="card-subtitle mb-3">{{ o.category }}</h6>
+                            <a class="bi-text-center" href="{% url 'ushopping:product-details' o.pk %}"
+                               class="card-link">Details</a>
+                        </div>
+
+                        <div class="card-footer border-warning text-center">
+                                <i class="bi bi-search-heart"></i>
+                                <small class="text-muted">Recommended to You</small>
+                            </div>
+
+
+                    </div>
+                </div>
+
+        {% endfor %}
+</div>
+    <hr>
+    </div>
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container shadow">
+
+
+        <div class="row">
+
+            <div class="col">
+                <br>
+                <h4>Filter by Category</h4>
+                <div class="col">
+                    <form action="{% url 'ushopping:browse-products' %}" method="get">
+
+                        <select name="cfilter" class="form-select">
+                            {% for o in categories %}
+                                <option value="{{ o.name }}">{{ o.name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+
+                        <input type="submit" class="btn btn-outline-primary" value="Apply Filter"/>
+
+
+                    </form>
+
+                </div>
+            </div>
+
+
+            <div class="col">
+                <br>
+                <h4>Advanced Search</h4>
+                <div class="input-group mb-3">
+
+                    <form action="{% url 'ushopping:browse-products' %}" method="get">
+
+                        <input  name="as" type="text" class=" w-100"
+                               placeholder="Searcby by Name, Description, Author, Publisher or Year"
+                               aria-describedby="button-addon2">
+
+                        <button type="submit" class="btn btn-outline-success" type="button">Search</button>
+
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+
+    <div class="row">
+    {% for o in object_list %}
+
+                <div class="col align-content-center">
+                    <div class="card mb-4" style="width: 20rem;">
+                        <img class="card-img-top" src=" /media/{{ o.product_image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ o.name }}</h5>
+                            <h6 class="card-subtitle mb-3">{{ o.category }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Author - {{ o.author }} <i
+                                    class="{{ o.country.flag_css }}"></i></h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Year - {{ o.year }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Publisher - {{ o.publisher }}</h6>
+                            <p class="card-text">{{ o.description | slice:":200" }}</p>
+                            <a class="bi-text-center" href="{% url 'ushopping:product-details' o.pk %}"
+                               class="card-link">Details</a>
+                        </div>
+                        {% if o.user.is_staff %} {# Personale interno #}
+                            <div class="card-footer border-info">
+                                <i class="bi bi-archive"></i>
+                                <small class="text-muted">
+                                    Certified</small>
+                            </div>
+                        {% else %} {# Seller #}
+                            <div class="card-footer border-success">
+                                <i class="bi bi-patch-check"></i>
+                                <small class="text-muted">Certified Seller</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+    {% endfor %}
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+             <br>
+        <hr>
+        <div class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            <a class="page-link" href="#">
+                         <span class="sr-only current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+            </a>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last
+                    &raquo;</a></li>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+
+{% endblock %}

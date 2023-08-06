@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Manage application forms{% endblock %}
+
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container bg-light">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:sellers-app-forms' %}">Manage application forms</a></li>
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+
+
+    <hr>
+    <h4 class="text-center">Currently pending application forms <mark>{{ count0 }} </mark></h4>
+
+
+    <div class="container">
+
+
+        <div class="row text-center align-content-center">
+
+        <form action="{% url 'uprofile:sellers-app-forms' %}" method="get"> {% csrf_token %}
+            <input name="search" size="40" type="text" placeholder="Search by Username, Seller Name, Phone, Email or Country">
+            <input type="submit" class="btn btn-outline-primary" value="Search"/>
+        </form>
+
+
+    </div>
+
+
+
+
+        <div class="accordion" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                       Currently pending application forms {{ count0 }}
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                     data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+
+
+
+
+            <div class="row">
+            {% if af_list %}
+                {% for o in af_list %}
+
+                    {% if o.status == '0' %}
+                        <div class="col align-content-center">
+                            <div class="card mb-4" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ o.seller_name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"> {{ o.creation_date }}</h6>
+                                    <p class="card-text">{{ o.description }}</p>
+                                    <a href="{% url 'uprofile:sellers-app-details' o.pk %}"
+                                       class="card-link">Manage</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Approved application forms {{ count1 }}
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+
+
+
+
+
+         <div class="row">
+            {% if af_list %}
+                {% for o in af_list %}
+
+                    {% if o.status == '1' %}
+                        <div class="col-md-4">
+                            <div class="card align-content-center" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ o.seller_name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"> {{ o.creation_date }}</h6>
+                                    <p class="card-text">{{ o.description }}</p>
+                                    <a href="{% url 'uprofile:sellers-app-details' o.pk %}"
+                                       class="card-link">Manage</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Rejected application forms {{ count2 }}
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+
+
+          <div class="row">
+            {% if af_list %}
+                {% for o in af_list %}
+
+                    {% if o.status == '2' %}
+                        <div class="col align-content-center">
+                            <div class="card mb-4" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ o.seller_name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"> {{ o.creation_date }}</h6>
+                                    <p class="card-text">{{ o.description }}</p>
+                                    <a href="{% url 'uprofile:sellers-app-details' o.pk %}"
+                                       class="card-link">Manage</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <br>
+        <hr>
+
+
+        <div class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            <a class="page-link" href="#">
+                         <span class="sr-only current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+            </a>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last
+                    &raquo;</a></li>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Delete{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block breadcrumb %}
+    <hr class="mt-0 mb-4">
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'uprofile:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'ushopping:my-cart-view' %}">My Cart</a></li>
+                <li class="breadcrumb-item"><a href="#">Delete</a></li>
+
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+{% block body %}
+    <div class="container">
+        <hr>
+
+        <h2>You are going to delete this product</h2>
+
+         <div class="col align-content-center">
+                    <div class="card mb-4" style="width: 18rem;">
+                        <img class="card-img-top" src=" /media/{{ object.item.product_image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.item.name }}</h5>
+                            <h6 class="card-subtitle mb-3">{{ object.item.category }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Author - {{ object.item.author }} <i class="{{ object.item.country.flag_css }}"></i></h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Year - {{ object.item.year }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Publisher - {{ object.item.publisher }}</h6>
+                            <p class="card-text">{{ object.item.description | slice:":200" }}</p>
+                            <b>Amount - {{ object.amount }}</b>
+                        </div>
+
+
+
+
+    </div>
+
+             <div class="row align-content-center">
+             <form method="post">{% csrf_token %}
+                {{ form.as_p }}
+            <input type="submit" value="Confirm">
+
+        </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Singup{% endblock %}
+
+{% block body %}
+
+
+
+    <body>
+    <div class="container-md">
+
+
+            <h1 class="h3 mb-3 fw-normal">Please sign up</h1>          <hr>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Confirm">
+            </form>
+    </div>
+
+    </body>
+{% endblock %}
